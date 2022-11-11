@@ -6,7 +6,7 @@ from pydantic import BaseModel
 class ParkingLot(BaseModel):
     sq_footage: Union[int, tuple]
     parking_capacity: Optional[int]
-    parking_spots: Optional[List[int]]
+    parking_spots: Optional[List[str]]
 
     def __init__(
         self,
@@ -20,3 +20,9 @@ class ParkingLot(BaseModel):
             self.sq_footage = sq_footage[0] * sq_footage[1]
         self.parking_capacity = self.sq_footage // parking_spot_size
         self.parking_spots = [0] * self.parking_capacity
+
+    def map_vehicle_spot(self):
+        vehicle_spot_map = {}
+        for i, license_no in enumerate(self.parking_spots):
+            vehicle_spot_map[license_no] = i
+        return vehicle_spot_map
