@@ -33,5 +33,5 @@ class Car(BaseModel):
             return "Car not parked"
         else:
             print(f"Car with license plate {self.license_plate} parked successfully in spot {spot_no}")
-            parking_lot.parking_spots[spot_no] = 1
+            parking_lot.parking_spots[spot_no] = self.license_no
             return "Car parked"
