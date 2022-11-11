@@ -1,0 +1,94 @@
+default_language_version:
+  python: python3.9
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.3.0
+    hooks:
+      - id: check-merge-conflict
+      - id: check-added-large-files
+        args: ["--maxkb=30000"]
+      - id: check-executables-have-shebangs
+      - id: trailing-whitespace
+      - id: mixed-line-ending
+      - id: fix-byte-order-marker # Forbid UTF-8 byte-order markers
+      # Check for files with names that would conflict on a case-insensitive
+      # filesystem like MacOS HFS+ or Windows FAT.
+      - id: check-case-conflict
+      - id: check-json
+      # - id: check-yaml
+      - id: end-of-file-fixer
+      - id: check-ast # Is it valid Python?
+      - id: detect-aws-credentials
+      - id: detect-private-key
+      - id: pretty-format-json
+        args: ["--autofix", "--no-ensure-ascii", "--no-sort-keys"]
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: master
+    hooks:
+      - id: commitizen
+        stages: [commit-msg]
+  - repo: https://github.com/psf/black
+    rev: 22.6.0
+    hooks:
+      - id: black
+  # apply black formatting to code-strings within docstrings
+  - repo: https://github.com/asottile/blacken-docs
+    rev: v1.12.1
+    hooks:
+      - id: blacken-docs
+        additional_dependencies: [black]
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v2.37.3
+    hooks:
+      - id: pyupgrade
+  - repo: local
+    hooks:
+      - id: flake8
+        name: flake8
+        description: Python style guide enforcement.
+        entry: flake8
+        args: [
+            "--config=setup.cfg",
+            "--ignore=E501,E203,DUO102,DUO104,PD011,F401,F403,F405,W503,E231,VNE001,E731",
+            # E731: do not assign a lambda expression, use a def
+          ]
+        additional_dependencies: [
+            flake8,
+            flake8-2020, # flake8 plugin which checks for misuse of `sys.version` or `sys.version_info`
+            flake8-blind-except, # A flake8 extension that checks for blind except: statements
+            flake8-builtins, # Check for python builtins being used as variables or parameters.
+            flake8-comprehensions, # It helps you write better list/set/dict comprehensions.
+            dlint, # Dlint is a tool for encouraging best coding practices and helping ensure we're writing secure Python code.
+            flake8-pytest, # pytest assert checker plugin for flake8
+            flake8-tabs, # Tab (or Spaces) indentation style checker for flake8
+          ]
+        language: python
+        types: [python]
+        require_serial: true
+      - id: autoflake
+        name: autoflake
+        description: remove unused imports
+        entry: autoflake
+        args: ["--in-place", "--remove-unused-variables"]
+        language: python
+        types: [python]
+        require_serial: true
+        additional_dependencies: [autoflake]
+      - id: isort
+        name: isort
+        description: Automatically sort imports.
+        entry: isort
+        args: ["--profile", "black"]
+        language: python
+        types: [python]
+        require_serial: true
+        additional_dependencies: [isort]
+      - id: pytest
+        name: Run Pytest
+        description: Run Python unit-tests
+        entry: pytest
+        language: python
+        types: [python]
+        require_serial: true
+        stages: [push]
