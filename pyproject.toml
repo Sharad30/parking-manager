@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "parking-manager"
+version = "0.1.0"
+description = "Parking manager to manage car parking"
+authors = ["Sharad Shriyan <sharad30.ss@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+
+[tool.poetry.dev-dependencies]
+flake8 = "^5.0.4"
+black = "^22.10.0"
+isort = "^5.10.1"
+commitizen = "^2.37.0"
+pre-commit = "^2.20.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
