@@ -1,5 +1,3 @@
-import pytest
-
 from parkingmanager import ParkingLot
 
 
@@ -15,9 +13,9 @@ def test_parking_spots_with_sq_footage_tuple():
 
 def test_parking_spots_with_custom_parking_spot_size():
     parking_lot = ParkingLot(sq_footage=(200, 10), parking_spot_size=(5, 5))
-    assert parking_lot.parking_capacity == 80
+    assert len(parking_lot.parking_spots) == 80
 
 
 def test_parking_spots_with_parking_spot_size_120ft():
     parking_lot = ParkingLot(sq_footage=(200, 10), parking_spot_size=(10, 12))
-    assert parking_lot.parking_capacity == 16
+    assert len(parking_lot.parking_spots) == 16

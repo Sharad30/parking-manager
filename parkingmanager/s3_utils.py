@@ -3,6 +3,7 @@ import os
 
 import boto3
 from botocore.exceptions import ClientError
+from rich.pretty import pprint
 
 
 def upload_file_to_s3(file_name, bucket, object_name=None):
@@ -19,7 +20,7 @@ def upload_file_to_s3(file_name, bucket, object_name=None):
     s3_client = boto3.client("s3")
     try:
         response = s3_client.upload_file(file_name, bucket, object_name)
-        print(f"File {file_name} uploaded to s3 successfully")
+        pprint(f"File {file_name} uploaded to s3 successfully")
     except ClientError as e:
         logging.error(e)
         return False

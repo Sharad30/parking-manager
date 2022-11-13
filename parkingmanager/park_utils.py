@@ -1,7 +1,8 @@
 import random
 import string
-from .car import Car
 from typing import List
+
+from .car import Car
 from .parkinglot import ParkingLot
 
 
@@ -15,7 +16,9 @@ def create_cars(no_of_cars: int):
     """
     cars = []
     for _ in range(0, no_of_cars):
-        random_license_no = "".join(random.choices(string.ascii_uppercase + string.digits, k=7))
+        random_license_no = "".join(
+            random.choices(string.ascii_uppercase + string.digits, k=7)
+        )
         cars.append(Car(license_no=random_license_no))
     return cars
 
@@ -34,11 +37,14 @@ def random_park(cars: List[Car], parking_lot: ParkingLot):
     not_parked_cars = []
     for car in cars:
         parking_status = "Car not parked"
-        total_occupied_spots = sum([1 if status == "Car parked" else 0 for status in car_parking_status])
-        parking_full_condition = total_occupied_spots == parking_lot.parking_capacity
+        total_occupied_spots = sum(
+            [1 if status == "Car parked" else 0 for status in car_parking_status]
+        )
+        parking_capacity = len(parking_lot.parking_spots)
+        parking_full_condition = total_occupied_spots == parking_capacity
         if not parking_full_condition:
             while parking_status == "Car not parked":
-                spot_no = random.randint(0, parking_lot.parking_capacity - 1)
+                spot_no = random.randint(0, parking_capacity - 1)
                 parking_status = car.park(parking_lot, spot_no)["status"]
         else:
             not_parked_cars.append(str(car))

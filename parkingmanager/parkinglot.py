@@ -1,8 +1,9 @@
-from typing import List, Optional, Union, Tuple
-
-from pydantic import BaseModel
 import json
 from pathlib import Path
+from typing import Dict, List, Optional, Tuple, Union
+
+from pydantic import BaseModel
+from rich.pretty import pprint
 
 
 class ParkingLot(BaseModel):
@@ -10,13 +11,13 @@ class ParkingLot(BaseModel):
 
     Attributes:
         sq_footage Union[int, Tuple[int, int]]: The parking lot size in sq.ft or (length, breadth) in feet.
-        parking_capacity (int): The parking capacity of the parking lot.
         parking_spots (List[int]): The parking spots of the parking lot containing parking status of each car with `1` as `Car is parked` and `0` as `Car is not parked`.
+        vehicle_spot_mapping (Dict[str, int]): The mapping of vehicle to spot number
     """
 
     sq_footage: Union[int, Tuple[int, int]]
-    parking_capacity: Optional[int]
-    parking_spots: Optional[List[str]]
+    parking_spots: Optional[List[int]]
+    vehicle_spot_mapping: Dict[str, int] = dict()
 
     def __init__(
         self,
@@ -28,8 +29,8 @@ class ParkingLot(BaseModel):
             parking_spot_size = parking_spot_size[0] * parking_spot_size[1]
         if isinstance(sq_footage, tuple):
             self.sq_footage = sq_footage[0] * sq_footage[1]
-        self.parking_capacity = self.sq_footage // parking_spot_size
-        self.parking_spots = [0] * self.parking_capacity
+        parking_capacity = self.sq_footage // parking_spot_size
+        self.parking_spots = [0] * parking_capacity
 
     def map_vehicle_spot(self, filepath: Union[str, Path]):
         """This method maps the vehicle to the spot number
@@ -37,11 +38,7 @@ class ParkingLot(BaseModel):
         Returns:
             dict: A dictionary containing the vehicle and spot number
         """
-        vehicle_spot_map = {}
-        for i, license_no in enumerate(self.parking_spots):
-            vehicle_spot_map[license_no] = i
-
-        vehicle_spot_map = json.dumps(vehicle_spot_map, indent=4)
+        vehicle_spot_mapping = json.dumps(self.dict()["vehicle_spot_mapping"], indent=4)
         with open(filepath, "w") as outfile:
-            outfile.write(vehicle_spot_map)
-        print(f"File {filepath} saved successfully")
+            outfile.write(vehicle_spot_mapping)
+        pprint(f"File {filepath} saved successfully")

@@ -1,12 +1,10 @@
 from pydantic import BaseModel, validator
+from rich.pretty import pprint
 
+from .custom_errors import (InvalidSpotNumberError, NotAValidLicenseNoError,
+                            ParkingCapacityExceededError,
+                            SpotNotAvailableError)
 from .parkinglot import ParkingLot
-from .custom_errors import (
-    NotAValidLicenseNoError,
-    InvalidSpotNumberError,
-    ParkingCapacityExceededError,
-    SpotNotAvailableError,
-)
 
 
 class Car(BaseModel):
@@ -37,7 +35,7 @@ class Car(BaseModel):
         Returns:
             dict: A dictionary containing the parking `status`  and `error` if any.
         """
-        if spot_no >= parking_lot.parking_capacity:
+        if spot_no >= len(parking_lot.parking_spots):
             try:
                 raise (ParkingCapacityExceededError())
             except ParkingCapacityExceededError as error:
@@ -48,12 +46,16 @@ class Car(BaseModel):
             except InvalidSpotNumberError as error:
                 return {"status": "Car not parked", "error": error.error_type}
         elif parking_lot.parking_spots[spot_no] == 1:
-            print(f"Car with license plate {self.license_no} not parked in spot {spot_no}")
+            pprint(
+                f"Car with license plate {self.license_no} not parked in spot {spot_no}"
+            )
             try:
                 raise (SpotNotAvailableError())
             except SpotNotAvailableError as error:
                 return {"status": "Car not parked", "error": error.error_type}
         else:
-            print(f"Car with license plate {self.license_no} parked successfully in spot {spot_no}")
-            parking_lot.parking_spots[spot_no] = self.license_no
+            pprint(
+                f"Car with license plate {self.license_no} parked successfully in spot {spot_no}"
+            )
+            parking_lot.vehicle_spot_mapping[self.license_no] = spot_no
             return {"status": "Car parked", "error": ""}
