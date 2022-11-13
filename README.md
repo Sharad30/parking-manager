@@ -17,22 +17,14 @@ echo '. $HOME/.asdf/asdf.sh' >> .bashrc
 echo '. $HOME/.asdf/completions/asdf.bash' >> .bashrc
 ```
 
-4. Install `python3.9.6`
-```
-asdf plugin-add python
-asdf install python 3.9.6
-asdf global python 3.9.6
-asdf reshim
-```
-
-5. Install poetry.
+4. Install poetry.
 ```
 pip install poetry
 asdf reshim
 ```
 
-6. Install all dependencies: `poetry install`
-7. [**Optional**] Integrating commitizen with pre-commit: `poetry run pre-commit install --hook-type commit-msg`
+5. Install all dependencies: `poetry install`
+6. [**Optional**] Integrating commitizen with pre-commit: `poetry run pre-commit install --hook-type commit-msg`
 
 ## Run main program
 ```
