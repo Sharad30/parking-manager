@@ -1,6 +1,8 @@
 from typing import List, Optional, Union, Tuple
 
 from pydantic import BaseModel
+import json
+from pathlib import Path
 
 
 class ParkingLot(BaseModel):
@@ -29,7 +31,7 @@ class ParkingLot(BaseModel):
         self.parking_capacity = self.sq_footage // parking_spot_size
         self.parking_spots = [0] * self.parking_capacity
 
-    def map_vehicle_spot(self):
+    def map_vehicle_spot(self, filepath: Union[str, Path]):
         """This method maps the vehicle to the spot number
 
         Returns:
@@ -38,4 +40,8 @@ class ParkingLot(BaseModel):
         vehicle_spot_map = {}
         for i, license_no in enumerate(self.parking_spots):
             vehicle_spot_map[license_no] = i
-        return vehicle_spot_map
+
+        vehicle_spot_map = json.dumps(vehicle_spot_map, indent=4)
+        with open(filepath, "w") as outfile:
+            outfile.write(vehicle_spot_map)
+        print(f"File {filepath} saved successfully")

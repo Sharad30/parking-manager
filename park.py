@@ -28,19 +28,6 @@ def cars_park(cars: List[Car]):
     return parking_lot
 
 
-def save_vehicle_parking_details(filepath: Union[Path, str], parking_lot: ParkingLot):
-    """This method saves the vehicle parking details to a file
-    Args:
-        filepath (Union[Path, str]): The file path to save the vehicle parking details
-        parking_lot (ParkingLot): The parking lot object
-    """
-    vehicle_spot_map = parking_lot.map_vehicle_spot()
-    vehicle_spot_map = json.dumps(vehicle_spot_map, indent=4)
-    with open(filepath, "w") as outfile:
-        outfile.write(vehicle_spot_map)
-    print(f"File {filepath} saved successfully")
-
-
 if __name__ == "__main__":
     cars = create_cars(no_of_cars=23)
     parking_lot = cars_park(cars=cars)
@@ -49,6 +36,6 @@ if __name__ == "__main__":
     root_dir.mkdir(exist_ok=True)
     filename = "parking_details.json"
     filepath = root_dir / filename
-    save_vehicle_parking_details(filepath=filepath, parking_lot=parking_lot)
+    parking_lot.map_vehicle_spot(filepath=filepath)
     print("----------------------------------------------------------------")
     upload_file_to_s3(file_name=str(root_dir / filename), bucket="parking-manager")
