@@ -32,7 +32,7 @@ asdf reshim
 ```
 
 6. Install all dependencies: `poetry install`
-7. Integrating commitizen with pre-commit: `poetry run pre-commit install --hook-type commit-msg`
+7. [**Optional**] Integrating commitizen with pre-commit: `poetry run pre-commit install --hook-type commit-msg`
 
 ## Run main program
 ```
@@ -40,38 +40,46 @@ poetry run python park.py
 ```
 The above command will do the following:
 1. Create a list of `Car` objects with random `license_no`.
+    ```
+    cars = create_cars(no_of_cars=23)
+    ```
 2. Park cars in random parking spots.
+    ```
+    parking_lot = cars_park(cars=cars)
+    ```
 3. Save JSON object having vehicle, parking spot mapping.
-4. Upload the JSON object file to S3 bucket.
+    ```
+    parking_lot.map_vehicle_spot(filepath=filepath)
+    ```
+4. Upload the JSON object file to S3 bucket (Make sure you have `aws cli` setup in your machine and configured to your `AWS` account with your credentials).
+    ```
+    upload_file_to_s3(file_name=str(root_dir / filename), bucket="parking-manager")
+    ```
 
 ## Run tests
 ```
 poetry run pytest test
 ```
 
-## How bad inputs are handled?
+## Error Codes
 
-1. Raise `NotAValidLicenseNoError` for `license_no` not equal to 7 digits.
+1. `NotAValidLicenseNoError`: Raised when `license_no` not equal to 7 digits.
 
-2. Raise `InvalidSpotError` for below scenarios
+2. `InvalidSpotNumberError`: Raised when `spot_no` < 0.
+    ```
+    car = cars_config["car1"][0]
+    parking_lot = ParkingLot(sq_footage=(200, 10))
+    response = car.park(parking_lot, spot_no=-1)
+    ```
+        
+3. `ParkingCapacityExceededError`: Raised when `spot_no` > `parking_capacity`.
+    ```
+    car = cars_config["car1"][0]
+    parking_lot = ParkingLot(sq_footage=(200, 10))
+    response = car.park(parking_lot, spot_no=1000)
+    ```
 
-    i. `spot_no` = -1
-
-        ```
-        car = cars_config["car1"][0]
-        parking_lot = ParkingLot(sq_footage=(200, 10))
-        response = car.park(parking_lot, spot_no=-1)
-        ```
-    ii. `spot_no` = 1000 (number greater than the parking capacity)
-
-        ```
-        car = cars_config["car1"][0]
-        parking_lot = ParkingLot(sq_footage=(200, 10))
-        response = car.park(parking_lot, spot_no=1000)
-        ```
-
-3. Raise `SpotNotAvailableError` when the spot chose already has a car parked in it.
-
+4. `SpotNotAvailableError`: Raised when the `spot_no` chosen already has a car parked in it.
     ```
     car = cars_config["car1"][0]
     parking_lot = ParkingLot(sq_footage=(200, 10))
