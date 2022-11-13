@@ -34,6 +34,7 @@ if __name__ == "__main__":
     parking_lot = cars_park(cars=cars)
     print("----------------------------------------------------------------")
     root_dir = Path("output")
+    root_dir.mkdir(exist_ok=True)
     filename = "parking_details.json"
     filepath = root_dir / filename
     save_vehicle_parking_details(filepath=filepath, parking_lot=parking_lot)
