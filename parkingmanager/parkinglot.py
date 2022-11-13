@@ -1,17 +1,17 @@
-from typing import List, Optional, Union
+from typing import List, Optional, Union, Tuple
 
 from pydantic import BaseModel
 
 
 class ParkingLot(BaseModel):
-    sq_footage: Union[int, tuple]
+    sq_footage: Union[int, Tuple[int, int]]
     parking_capacity: Optional[int]
     parking_spots: Optional[List[str]]
 
     def __init__(
         self,
-        sq_footage: Union[int, tuple],
-        parking_spot_size: Union[int, tuple] = (8, 12),
+        sq_footage: Union[int, Tuple[int, int]],
+        parking_spot_size: Union[int, Tuple[int, int]] = (8, 12),
     ):
         super().__init__(sq_footage=sq_footage)
         if isinstance(parking_spot_size, tuple):

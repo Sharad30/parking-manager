@@ -18,24 +18,21 @@ class Car(BaseModel):
         return license_no
 
     def __str__(self):
-        return f"Car with license plate {self.license_plate}"
+        return f"Car with license plate {self.license_no}"
 
     def __repr__(self):
-        return self.license_plate
-
-    @property
-    def license_plate(self):
         return self.license_no
 
+
     def park(self, parking_lot: ParkingLot, spot_no: int):
-        if parking_lot.parking_spots[spot_no]:
+        if parking_lot.parking_spots[spot_no] == 1:
             print(
-                f"Car with license plate {self.license_plate} not parked in spot {spot_no}"
+                f"Car with license plate {self.license_no} not parked in spot {spot_no}"
             )
             return "Car not parked"
         else:
             print(
-                f"Car with license plate {self.license_plate} parked successfully in spot {spot_no}"
+                f"Car with license plate {self.license_no} parked successfully in spot {spot_no}"
             )
             parking_lot.parking_spots[spot_no] = self.license_no
             return "Car parked"
