@@ -48,3 +48,4 @@ if __name__ == "__main__":
     filename = "parking_details.json"
     filepath = root_dir / filename
     save_vehicle_parking_details(filepath=filepath, parking_lot=parking_lot)
+    upload_file_to_s3(file_name=str(root_dir / filename), bucket="parking-manager")
