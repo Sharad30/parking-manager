@@ -39,14 +39,14 @@ def test_negative_parking_spot_no(cars_config):
     car = cars_config["car1"][0]
     parking_lot = ParkingLot(sq_footage=(200, 10))
     response = car.park(parking_lot, spot_no=-1)
-    assert response["status"] == "Car not parked" and response["error"] == "InvalidSpotError"
+    assert response["status"] == "Car not parked" and response["error"] == "InvalidSpotNumberError"
 
 
-def test_greater_than_available_parking_spot_no(cars_config):
+def test_greater_than_capacity_parking_spot_no(cars_config):
     car = cars_config["car1"][0]
     parking_lot = ParkingLot(sq_footage=(200, 10))
     response = car.park(parking_lot, spot_no=100)
-    assert response["status"] == "Car not parked" and response["error"] == "InvalidSpotError"
+    assert response["status"] == "Car not parked" and response["error"] == "ParkingCapacityExceededError"
 
 
 def test_already_paarked_parking_spot_no(cars_config):

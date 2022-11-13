@@ -1,7 +1,12 @@
 from pydantic import BaseModel, validator
 
 from .parkinglot import ParkingLot
-from .custom_errors import NotAValidLicenseNoError, InvalidSpotError, SpotNotAvailableError
+from .custom_errors import (
+    NotAValidLicenseNoError,
+    InvalidSpotNumberError,
+    ParkingCapacityExceededError,
+    SpotNotAvailableError,
+)
 
 
 class Car(BaseModel):
@@ -32,10 +37,15 @@ class Car(BaseModel):
         Returns:
             dict: A dictionary containing the parking `status`  and `error` if any.
         """
-        if (spot_no >= parking_lot.parking_capacity) | (spot_no < 0):
+        if spot_no >= parking_lot.parking_capacity:
             try:
-                raise (InvalidSpotError())
-            except InvalidSpotError as error:
+                raise (ParkingCapacityExceededError())
+            except ParkingCapacityExceededError as error:
+                return {"status": "Car not parked", "error": error.error_type}
+        elif spot_no < 0:
+            try:
+                raise (InvalidSpotNumberError())
+            except InvalidSpotNumberError as error:
                 return {"status": "Car not parked", "error": error.error_type}
         elif parking_lot.parking_spots[spot_no] == 1:
             print(f"Car with license plate {self.license_no} not parked in spot {spot_no}")

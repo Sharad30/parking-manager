@@ -8,8 +8,18 @@ class NotAValidLicenseNoError(PydanticValueError):
     msg_template = 'value is not a 7 digit license number, got "{wrong_value}"'
 
 
-class InvalidSpotError(Exception):
-    """This class handles the error when the parking spot number is not valid"""
+class InvalidSpotNumberError(Exception):
+    """This class handles the error when the parking spot number is less than zero"""
+
+    def __init__(self):
+        self.error_type = self.__class__.__name__
+
+    def __str__(self):
+        return self.error_type
+
+
+class ParkingCapacityExceededError(Exception):
+    """This class handles the error when the parking spot number exceeds the capacity"""
 
     def __init__(self):
         self.error_type = self.__class__.__name__
