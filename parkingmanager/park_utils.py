@@ -1,6 +1,8 @@
 import random
 import string
 from .car import Car
+from typing import List
+from .parkinglot import ParkingLot
 
 
 def create_cars(no_of_cars: int):
@@ -11,7 +13,7 @@ def create_cars(no_of_cars: int):
     return cars
 
 
-def random_park(cars, parking_lot):
+def random_park(cars: List[Car], parking_lot: ParkingLot):
     car_parking_status = []
     not_parked_cars = []
     for car in cars:
