@@ -5,7 +5,7 @@ description = "Parking manager to manage car parking"
 authors = ["Sharad Shriyan <sharad30.ss@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = ">=3.8, <4.0.0"
 pydantic = "^1.10.2"
 boto3 = "^1.26.7"
 
