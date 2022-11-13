@@ -5,6 +5,12 @@ from .custom_errors import NotAValidLicenseNoError, InvalidSpotError, SpotNotAva
 
 
 class Car(BaseModel):
+    """This class manages car related operations
+
+    Attributes:
+        license_no (str): The license number of car
+    """
+
     license_no: str
 
     @validator("license_no")
@@ -17,6 +23,15 @@ class Car(BaseModel):
         return self.license_no
 
     def park(self, parking_lot: ParkingLot, spot_no: int):
+        """This method parks the car in the parking lot
+
+        Args:
+            parking_lot (ParkingLot): The parking lot object
+            spot_no (int): The spot number to park the car
+
+        Returns:
+            dict: A dictionary containing the parking `status`  and `error` if any.
+        """
         if (spot_no >= parking_lot.parking_capacity) | (spot_no < 0):
             try:
                 raise (InvalidSpotError())

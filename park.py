@@ -9,6 +9,13 @@ from parkingmanager.park_utils import create_cars, random_park
 
 
 def cars_park(cars: List[Car]):
+    """This method parks the cars in the parking lot randomly
+    Args:
+        cars (List[Car]): The list of cars
+
+    Returns:
+        ParkingLot: The parking lot object
+    """
     parking_lot = ParkingLot(sq_footage=(200, 10))
     car_parking_status, not_parked_cars = random_park(cars=cars, parking_lot=parking_lot)
     print("----------------------------------------------------------------")
@@ -22,6 +29,11 @@ def cars_park(cars: List[Car]):
 
 
 def save_vehicle_parking_details(filepath: Union[Path, str], parking_lot: ParkingLot):
+    """This method saves the vehicle parking details to a file
+    Args:
+        filepath (Union[Path, str]): The file path to save the vehicle parking details
+        parking_lot (ParkingLot): The parking lot object
+    """
     vehicle_spot_map = parking_lot.map_vehicle_spot()
     vehicle_spot_map = json.dumps(vehicle_spot_map, indent=4)
     with open(filepath, "w") as outfile:

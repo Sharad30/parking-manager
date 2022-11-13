@@ -6,6 +6,13 @@ from .parkinglot import ParkingLot
 
 
 def create_cars(no_of_cars: int):
+    """This method creates cars with random license numbers
+    Args:
+        no_of_cars (int): The number of cars to be created
+
+    Returns:
+        List[Car]: A list of cars
+    """
     cars = []
     for _ in range(0, no_of_cars):
         random_license_no = "".join(random.choices(string.ascii_uppercase + string.digits, k=7))
@@ -14,6 +21,15 @@ def create_cars(no_of_cars: int):
 
 
 def random_park(cars: List[Car], parking_lot: ParkingLot):
+    """This method parks the cars in the parking lot randomly
+    Args:
+        cars (List[Car]): The list of cars
+        parking_lot (ParkingLot): The parking lot object
+
+    Returns:
+        list: A list containing the parking status.
+        list: A list containing license number of non parked cars.
+    """
     car_parking_status = []
     not_parked_cars = []
     for car in cars:
