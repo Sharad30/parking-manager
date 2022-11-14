@@ -3,34 +3,36 @@
 ## Getting Started
 
 1. Clone the repository
+    ```
+    git clone https://github.com/Sharad30/parking-manager.git
+    cd parking-manager
+    ```
 
-2. Install system packages
-```
-sudo apt install -y curl git python-dev gcc make gdb lcov libbz2-dev libffi-dev libgdbm-dev libgdbm-compat-dev liblzma-dev libncurses5-dev libreadline6-dev libsqlite3-dev libssl-dev lzma lzma-dev tk-dev uuid-dev zlib1g-dev libpq-dev
-```
+2. Install poetry.
 
-3. Install `asdf`
-```
-git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.10.2
-cd
-echo '. $HOME/.asdf/asdf.sh' >> .bashrc
-echo '. $HOME/.asdf/completions/asdf.bash' >> .bashrc
-```
+    Depending on your python installation, do the following:
 
-4. Install poetry.
-```
-pip install poetry
-asdf reshim
-```
+    - Without `asdf`
+        ```
+        pip install poetry
+        ```
+    - With `asdf`
+        ```
+        pip install poetry
+        asdf reshim
+        ```
 
-5. Install all dependencies: `poetry install`
-6. [**Optional**] Integrating commitizen with pre-commit: `poetry run pre-commit install --hook-type commit-msg`
+3. Install all dependencies: `poetry install`
+4. [**Optional**] Integrating commitizen with pre-commit: `poetry run pre-commit install --hook-type commit-msg`
 
 ## Run main program
+
+To run `park.py`:
 ```
 poetry run python park.py
 ```
-The above command will do the following:
+
+Here is what is happening in `park.py`:
 1. Create a list of `Car` objects with random `license_no`.
     ```
     cars = create_cars(no_of_cars=23)
