@@ -1,5 +1,6 @@
-from parkingmanager import Car
 from pydantic import ValidationError
+
+from parkingmanager import Car
 from parkingmanager.custom_errors import NotAValidLicenseNoError
 
 
