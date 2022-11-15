@@ -99,3 +99,11 @@ def test_already_parked_parking_spot_no_custom_sq_footage(cars_config):
     parking_lot.parking_spots[0] = 1
     response = car.park(parking_lot, spot_no=0)
     assert response["status"] == "Car not parked" and response["error"] == "SpotNotAvailableError"
+
+
+def test_park_randomly_unique_spot_for_each_car(cars_config):
+    cars = cars_config["car23"]
+    parking_lot = ParkingLot(sq_footage=(200, 10))
+    _, _ = random_park(cars=cars, parking_lot=parking_lot)
+    unique_parked_spots = set(parking_lot.vehicle_spot_mapping.values())
+    assert len(unique_parked_spots) == len(parking_lot.parking_spots)
