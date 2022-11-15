@@ -1,9 +1,12 @@
 from pydantic import BaseModel, validator
 from rich.pretty import pprint
 
-from .custom_errors import (InvalidSpotNumberError, NotAValidLicenseNoError,
-                            ParkingCapacityExceededError,
-                            SpotNotAvailableError)
+from .custom_errors import (
+    InvalidSpotNumberError,
+    NotAValidLicenseNoError,
+    ParkingCapacityExceededError,
+    SpotNotAvailableError,
+)
 from .parkinglot import ParkingLot
 
 
@@ -57,5 +60,6 @@ class Car(BaseModel):
             pprint(
                 f"Car with license plate {self.license_no} parked successfully in spot {spot_no}"
             )
+            parking_lot.parking_spots[spot_no] = 1
             parking_lot.vehicle_spot_mapping[self.license_no] = spot_no
             return {"status": "Car parked", "error": ""}
