@@ -1,5 +1,10 @@
 # parking-manager
 
+# v2 update
+
+1. Added tests for multiple cars being parked in the same spot.
+2. Fixed multiple cars being parked in the same spot behavior.
+
 ## Getting Started
 
 1. Clone the repository
